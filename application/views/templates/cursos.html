@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
+            <h1>Cursos</h1>
+        </div>
+        <div class="pull-right" style="padding-top:30px">
+            <div class="input-group">
+                <label for="cursosSelect">Cursos: </span>
+                <select id="cursosSelect" name="cursosSelect" class="form-control" ng-options="option.nome_curso for option in cursos track by option.id_curso" ng-model="data.curso_selecionado">
+                    </select>
+            </div>
+            <!--<div class="input-group">
+                <span class="input-group-addon">Campi: </span>
+                <select id="locaisSelect" name="locaisSelect" class="form-control" ng-options="option.nome_local for option in locais track by option.id_local" ng-model="data.local_selecionado">
+                    </select>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-info" ng-show="data.curso_selecionado">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{data.curso_selecionado.nome_curso | uppercase}}</h3>
+    </div>
+    <div class="panel-body">
+        <h4>Escolha o campi onde o curso é oferecido: </h4>
+        <button class="btn btn-default btn-sm" ng-repeat="value in cursos_locais  | filter:data.curso_selecionado.nome_curso" ng-click="data.campi=value.nome_local">{{value.nome_local}}</button>
+        <br><br>
+        <h4>Sobre o curso:</h4> 
+        <p>{{data.curso_selecionado.descricao}}</p>
+        <br>
+        <div ng-show="data.campi"> 
+            <p class="well well-sm text-success">Você escolheu o campi <b>{{data.campi}}</b>! <br>Aproveite e complete seus dados para receber mais informações sobre o seu curso:</p>
+            <form name="candidatoForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error' : candidatoForm.nomeCandidato.$invalid && !candidatoForm.nomeCandidato.$pristine }">
+                <label for="nomeCandidato">Nome</label>
+                <input type="text" name="nomeCandidato" class="form-control" id="nomeCandidato" ng-model="nomeCandidato" required ng-minlength="3">
+                <p ng-show="candidatoForm.nomeCandidato.$invalid && !candidatoForm.nomeCandidato.$pristine" class="help-block">Precisamos saber seu nome!</p>
+                <p ng-show="candidatoForm.nomeCandidato.$error.minlength" class="help-block">Seu nome não está pequeno demais?</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : candidatoForm.telefoneCandidato.$invalid && !candidatoForm.telefoneCandidato.$pristine }">
+                <label for="telefoneCandidato">Telefone</label>
+                <input type="tel" name="telefoneCandidato" placeholder="(00) 0000-0000" class="form-control" id="telefoneCandidato" ng-model="telefoneCandidato" ng-pattern="/^\(\d{2}\)\s\d{4,5}-\d{4}$/" required>
+                <small class="text-muted">Exemplo: (99) 1234-5678 ou (99) 12345-6789</small>
+                <p ng-show="candidatoForm.telefoneCandidato.$invalid && !candidatoForm.telefoneCandidato.$pristine" class="help-block">Nós vamos ligar para você!</p>
+                <p ng-show="candidatoForm.telefoneCandidato.$error.number" class="help-block">Telefone só pode conter números!</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : candidatoForm.emailCandidato.$invalid && !candidatoForm.emailCandidato.$pristine }">
+                <label for="emailCandidato">Email</label>
+                <input type="email" name="emailCandidato" placeholder="voce@email.com.br" class="form-control" id="emailCandidato" ng-model="emailCandidato" ng-pattern="/^\w*(\.\w*)?@\w*\.[a-z]+(\.[a-z]+)?$/" required>
+                <small class="text-muted">Exemplo: voce@email.com.br</small>
+                <p ng-show="candidatoForm.emailCandidato.$invalid && !candidatoForm.emailCandidato.$pristine" class="help-block">Nós iremos mandar mais informações pelo seu email!</p>
+                <p ng-show="candidatoForm.emailCandidato.$error.email" class="help-block">Tem certeza que seu email é esse?</p>
+            </div>
+            <button type="submit" class="btn btn-success" ng-disabled="candidatoForm.$invalid">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
